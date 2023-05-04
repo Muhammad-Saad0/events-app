@@ -1,7 +1,12 @@
-import React from "react";
-
-function page() {
-  return <div>This is our single page</div>;
+export default function page() {
+  return <div>Enter</div>;
 }
 
-export default page;
+export async function getServerSideProps(ctx) {
+  console.log(ctx);
+  return {
+    props: {
+      data: null,
+    },
+  };
+}

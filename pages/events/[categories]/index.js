@@ -1,7 +1,58 @@
-import React from "react";
-
-function page() {
-  return <div>This is index page</div>;
+export default function page({ data, city }) {
+  console.log(data);
+  return (
+    <section className="p-10">
+      <h1 className="font-poppins text-center font-bold text-4xl">
+        Events in {city}
+      </h1>
+      {data.map((ev) => (
+        <div className="flex flex-col space-y-3 m-10">
+          <h1 className="font-poppins text-2xl">
+            {ev.title}
+          </h1>
+          <p className="max-w-[470px] font-poppins text-slate-700">
+            {ev.description}
+          </p>
+          <img
+            className="rounded-[20px] h-[300px] w-[400px] object-fill"
+            src={ev.image}
+            alt="event-image"
+          />
+        </div>
+      ))}
+    </section>
+  );
 }
 
-export default page;
+export async function getStaticPaths() {
+  const { events_categories } = await import(
+    "../../../data/data.json"
+  );
+
+  const allPaths = events_categories.map((ev) => {
+    return {
+      params: {
+        categories: ev.id,
+      },
+    };
+  });
+  return {
+    paths: allPaths,
+    fallback: false,
+  };
+}
+export async function getStaticProps(ctx) {
+  const id = ctx?.params.categories;
+  const { allEvents } = await import(
+    "../../../data/data.json"
+  );
+  const data = allEvents.filter(
+    (ev) => ev.city === id
+  );
+  return {
+    props: {
+      data: data,
+      city: id,
+    },
+  };
+}
