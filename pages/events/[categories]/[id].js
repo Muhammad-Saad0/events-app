@@ -1,15 +1,18 @@
+import { useRouter } from "next/router.js";
 import axios from "../../../helpers/axios/axios.js";
 import { useState } from "react";
 
 export default function page({ data }) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
 
   const handleSubmit = (event) => {
-    console.log(email);
+    const eventID = router?.query.id;
     event.preventDefault();
     try {
       axios.post("/register-email", {
         email: email,
+        eventID: eventID,
       });
     } catch (error) {
       console.log("An error Occured");
