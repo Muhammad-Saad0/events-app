@@ -1,7 +1,21 @@
-import { list } from "postcss";
+import axios from "../../../helpers/axios/axios.js";
+import { useState } from "react";
 
 export default function page({ data }) {
-  console.log(data);
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (event) => {
+    console.log(email);
+    event.preventDefault();
+    try {
+      axios.post("/register-email", {
+        email: email,
+      });
+    } catch (error) {
+      console.log("An error Occured");
+    }
+  };
+
   return (
     <section className="p-10 flex flex-col space-y-8">
       <h1 className="text-4xl font-poppins font-semibold">
@@ -23,8 +37,11 @@ export default function page({ data }) {
         {data.emails_registered.length !== 0 ? (
           <ul>
             {data.emails_registered.map(
-              (email) => (
-                <li className="font-light font-poppins">
+              (email, index) => (
+                <li
+                  key={index}
+                  className="font-light font-poppins"
+                >
                   {email}
                 </li>
               )
@@ -36,6 +53,33 @@ export default function page({ data }) {
           </p>
         )}
       </div>
+      <form onSubmit={handleSubmit}>
+        <h4 className="font-semibold text-2xl">
+          Register
+        </h4>
+        <div className="flex flex-col">
+          <label
+            className="font-poppins"
+            htmlFor=""
+          >
+            Enter Your Email:
+          </label>
+          <input
+            required
+            className="border-black border-2 w-1/3 rounded-md px-2 py-1"
+            type="email"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <button
+            className="py-2 px-4 mt-4 bg-indigo-600 text-white w-1/5 font-poppins
+          rounded-md shadow-md"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </section>
   );
 }
