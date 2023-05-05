@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 function page({ data }) {
@@ -10,11 +11,11 @@ function page({ data }) {
         {data.map((ev) => {
           return (
             <div key={ev.id} className="m-10">
-              <a href={`/events/${ev.id}`}>
-                <h2 className="text-2xl font-poppins">
+              <Link href={`/events/${ev.id}`}>
+                <h2 className="text-2xl font-poppins font-bold">
                   {ev.title}
                 </h2>
-              </a>
+              </Link>
               <img
                 className="w-[400px] h-[300px]"
                 src={ev.image}

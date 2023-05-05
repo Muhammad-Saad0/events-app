@@ -1,15 +1,21 @@
+import Link from "next/link";
+
 export default function page({ data, city }) {
-  console.log(data);
   return (
     <section className="p-10">
       <h1 className="font-poppins text-center font-bold text-4xl">
         Events in {city}
       </h1>
       {data.map((ev) => (
-        <div className="flex flex-col space-y-3 m-10">
-          <h1 className="font-poppins text-2xl">
-            {ev.title}
-          </h1>
+        <div
+          key={ev.id}
+          className="flex flex-col space-y-3 m-10"
+        >
+          <Link href={`/events/${city}/${ev.id}`}>
+            <h1 className="font-poppins text-2xl">
+              {ev.title}
+            </h1>
+          </Link>
           <p className="max-w-[470px] font-poppins text-slate-700">
             {ev.description}
           </p>
